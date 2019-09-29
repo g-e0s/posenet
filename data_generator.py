@@ -1,10 +1,12 @@
 
 from keras_preprocessing.image import DataFrameIterator
+#from tensorflow.python.keras.preprocessing.image import DirectoryIterator
+from tensorflow.python.keras.utils.data_utils import Sequence
 import numpy as np
 import skimage
 
 
-class DFIterator(DataFrameIterator):
+class DFIterator(DataFrameIterator, Sequence):
     def __init__(self, coordinate_split_index=3, n_auxiliary=0, random_crop_shape=(224, 224), *args, **kwargs):
         self.coordinate_split_index = coordinate_split_index
         self.n_auxiliary = n_auxiliary

@@ -41,7 +41,7 @@ class ModelBuilder:
         x = tf.keras.layers.GlobalAvgPool2D(name='pose_pool')(x)
         x = tf.keras.layers.Dense(pose_regressor_size, activation="relu", name='pose_dense')(x)
         x = tf.keras.layers.Dropout(rate=0.5, name='pose_dropout')(x)
-        position_xyz = tf.keras.layers.Dense(loc_size, activation="relu", name='xyz',
+        position_xyz = tf.keras.layers.Dense(loc_size, activation="linear", name='xyz',
             kernel_initializer=init_xyz,
             kernel_regularizer=tf.keras.regularizers.l2(1.0))(x)
         position_wpqr = tf.keras.layers.Dense(orient_size, activation="tanh", name='wpqr',
