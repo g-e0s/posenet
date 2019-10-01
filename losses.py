@@ -15,10 +15,10 @@ def euclidean(target, output):
     return tf.linalg.norm(target - output, axis=-1)
 
 def orientation_angle(target, output):
-    """Angle between vectors"""
+    """Angle between orientations given by quaternions"""
     true_orientation = tf.div_no_nan(target, tf.linalg.norm(target, axis=-1, keepdims=True))
     predicted_orientation = tf.div_no_nan(output, tf.linalg.norm(output, axis=-1, keepdims=True))
-    prod = tf.multiply(true_orientation, predicted_orientation)
-    d = tf.abs(tf.reduce_sum(prod, axis=-1))
-    theta = 2 * tf.math.acos(d) * 180 / math.pi
-    return theta
+    dot = tf.reduce_sum(tf.multiply(true_orientation, predicted_orientation), axis=-1)
+    dot = tf.math.minimum(tf.math.maximum(dot, -1.0), 1.0)
+    angle = tf.math.acos(2 * tf.square(dot) - 1) * 180 / math.pi
+    return angle
